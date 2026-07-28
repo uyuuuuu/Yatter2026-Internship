@@ -1,0 +1,18 @@
+package com.dmm.bootcamp.yatter.ui.timeline
+
+import com.dmm.bootcamp.yatter.ui.timeline.bindingmodel.YweetBindingModel
+
+data class PublicTimelineUiState(
+  val yweetList: List<YweetBindingModel>,
+  val isLoading: Boolean,
+  val isRefreshing: Boolean,
+) {
+  companion object {
+//    初期値
+    fun empty(): PublicTimelineUiState = PublicTimelineUiState(
+      yweetList = emptyList(),
+      isLoading = false,
+      isRefreshing = false,
+    )
+  }
+}
