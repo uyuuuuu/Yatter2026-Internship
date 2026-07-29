@@ -1,11 +1,13 @@
 package com.dmm.bootcamp.yatter.ui.login
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -16,6 +18,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -39,8 +42,13 @@ fun LoginTemplate(
     topBar = {
       TopAppBar(
         title = {
-          Text("ログイン")
-        }
+          Text(
+            text = "ログイン",
+            color = MaterialTheme.colorScheme.onPrimary,
+          )        },
+        colors = TopAppBarDefaults.topAppBarColors(
+          containerColor = MaterialTheme.colorScheme.primary
+        )
       )
     }
   ) { paddingValues ->
@@ -69,7 +77,7 @@ fun LoginTemplate(
           placeholder = {
             Text(
               text = "username",
-              color = MaterialTheme.colorScheme.secondary
+              color = MaterialTheme.colorScheme.outline
             )
           }
         )
@@ -91,7 +99,7 @@ fun LoginTemplate(
           placeholder = {
             Text(
               text = "password",
-              color = MaterialTheme.colorScheme.secondary
+              color = MaterialTheme.colorScheme.outline
             )
           }
         )
@@ -123,11 +131,21 @@ fun LoginTemplate(
           Text(text = "新規ユーザー登録")
         }
       }
+      if (isLoading) {
+        CircularProgressIndicator()
+      }
     }
   }
 }
 
-@Preview
+@Preview(
+  name = "Light",
+  uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Preview(
+  name = "Dark",
+  uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
 @Composable
 private fun LoginTemplatePreview() {
   YatterTheme {

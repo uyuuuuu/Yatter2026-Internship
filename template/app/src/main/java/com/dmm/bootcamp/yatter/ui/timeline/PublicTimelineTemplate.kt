@@ -41,8 +41,10 @@ fun PublicTimelineTemplate(
     topBar = {
       TopAppBar(
         title = {
-          Text(text = "タイムライン", color= MaterialTheme.colorScheme.onPrimary)
-        },
+          Text(
+            text = "タイムライン",
+            color = MaterialTheme.colorScheme.onPrimary,
+          )        },
         colors = TopAppBarDefaults.topAppBarColors(
           containerColor = MaterialTheme.colorScheme.primary
         )

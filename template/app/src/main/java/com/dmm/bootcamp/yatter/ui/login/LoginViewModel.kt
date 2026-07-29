@@ -61,7 +61,7 @@ class LoginViewModel (
       // ログイン処理
       val snapBindingModel = uiState.value.loginBindingModel
       when (
-        val result = loginUseCase.execute(
+        loginUseCase.execute(
             Username(snapBindingModel.username),
             LoginPassword(snapBindingModel.password)
           )
