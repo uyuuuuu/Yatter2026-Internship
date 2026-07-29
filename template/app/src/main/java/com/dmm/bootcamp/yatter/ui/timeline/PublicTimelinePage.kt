@@ -1,6 +1,7 @@
 package com.dmm.bootcamp.yatter.ui.timeline
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
@@ -9,6 +10,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun PublicTimelinePage(
+  onNavigateToPost: () -> Unit,
   // koinViewModelはDIからViewModelを呼び出す
   publicTimelineViewModel: PublicTimelineViewModel = koinViewModel(),
 ) {
@@ -20,8 +22,20 @@ fun PublicTimelinePage(
     publicTimelineViewModel.onResume()
   }
 
+  // 投稿画面へ
+  LaunchedEffect(publicTimelineViewModel) {
+    publicTimelineViewModel.navigationEvent.collect { ev ->
+      when (ev) {
+        is PublicTimelineNavigationEvent.NavigateToPost -> {
+          onNavigateToPost()
+        }
+      }
+    }
+  }
+
   PublicTimelineTemplate(
     yweetList = uiState.yweetList,
+    onClickPost = publicTimelineViewModel::onClickPost,
     isLoading = uiState.isLoading,
     isRefreshing = uiState.isRefreshing,
     onRefresh = publicTimelineViewModel::onRefresh, //::は後で実行させる
