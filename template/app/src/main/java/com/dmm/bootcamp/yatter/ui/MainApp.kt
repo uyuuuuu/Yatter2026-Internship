@@ -16,8 +16,10 @@ import com.dmm.bootcamp.yatter.ui.login.LoginPage
 import com.dmm.bootcamp.yatter.ui.navigation.LoginKey
 import com.dmm.bootcamp.yatter.ui.navigation.PostKey
 import com.dmm.bootcamp.yatter.ui.navigation.PublicTimelineKey
+import com.dmm.bootcamp.yatter.ui.navigation.RegisterKey
 import com.dmm.bootcamp.yatter.ui.navigation.YatterNavKey
 import com.dmm.bootcamp.yatter.ui.post.PostPage
+import com.dmm.bootcamp.yatter.ui.register.RegisterPage
 import com.dmm.bootcamp.yatter.ui.timeline.PublicTimelinePage
 import org.koin.androidx.compose.koinViewModel
 @Composable
@@ -57,7 +59,7 @@ fun MainApp(mainViewModel: MainViewModel = koinViewModel()) {
               backStack.clear()
               backStack.add(PublicTimelineKey)
             },
-            onNavigateToRegister = { /* 登録画面を作成したら繋ぎこむ */ },
+            onNavigateToRegister = { backStack.add(RegisterKey) },
           )
         }
         entry<PublicTimelineKey> {
@@ -69,6 +71,12 @@ fun MainApp(mainViewModel: MainViewModel = koinViewModel()) {
           PostPage(
             onPosted = { onBack() },
             onBack = onBack,
+          )
+        }
+        entry<RegisterKey> {
+          RegisterPage(
+            onRegistered = { backStack.add(PublicTimelineKey) },
+            onNavigatedToLogin = { backStack.add(LoginKey) },
           )
         }
         // ほかの画面キーも同様に entry を追加
