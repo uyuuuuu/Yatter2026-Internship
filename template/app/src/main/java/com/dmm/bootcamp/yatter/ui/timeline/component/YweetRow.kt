@@ -16,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -82,7 +83,8 @@ fun YweetRow(
 
     // 表示名@user、Yweet文を縦に
     Column(
-      verticalArrangement = Arrangement.spacedBy(4.dp)
+      verticalArrangement = Arrangement.spacedBy(4.dp),
+      horizontalAlignment = Alignment.Start
     ) {
       // 表示名
       Text(
@@ -112,7 +114,9 @@ fun YweetRow(
           AsyncImage(
             model = attachmentImage.url,
             contentDescription = attachmentImage.description,
-            modifier = Modifier.fillParentMaxWidth(1f),
+            modifier = Modifier
+              .fillParentMaxWidth(1f),
+            alignment = Alignment.CenterStart,
             contentScale = ContentScale.Fit,
           )
           Spacer(modifier = Modifier.width(4.dp))
