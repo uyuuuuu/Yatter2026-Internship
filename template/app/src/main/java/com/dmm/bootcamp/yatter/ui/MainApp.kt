@@ -19,10 +19,12 @@ import com.dmm.bootcamp.yatter.ui.navigation.LoginKey
 import com.dmm.bootcamp.yatter.ui.navigation.PostKey
 import com.dmm.bootcamp.yatter.ui.navigation.PublicTimelineKey
 import com.dmm.bootcamp.yatter.ui.navigation.RegisterKey
+import com.dmm.bootcamp.yatter.ui.navigation.UpdateKey
 import com.dmm.bootcamp.yatter.ui.navigation.YatterNavKey
 import com.dmm.bootcamp.yatter.ui.post.PostPage
 import com.dmm.bootcamp.yatter.ui.register.RegisterPage
 import com.dmm.bootcamp.yatter.ui.timeline.PublicTimelinePage
+import com.dmm.bootcamp.yatter.ui.updateuser.UpdateUserPage
 import org.koin.androidx.compose.koinViewModel
 @Composable
 fun MainApp(mainViewModel: MainViewModel = koinViewModel()) {
@@ -82,7 +84,7 @@ fun MainApp(mainViewModel: MainViewModel = koinViewModel()) {
         }
         entry<RegisterKey> {
           RegisterPage(
-            onRegistered = { backStack.add(PublicTimelineKey) },
+            onRegistered = { username -> backStack.add(UpdateKey(username)) },
             onNavigatedToLogin = { backStack.add(LoginKey) },
           )
         }
@@ -90,6 +92,15 @@ fun MainApp(mainViewModel: MainViewModel = koinViewModel()) {
           DetailPage(
             yweetId = key.yweetId,
             onBack = onBack,
+          )
+        }
+        entry<UpdateKey> { key ->
+          UpdateUserPage(
+            username = key.username,
+            onNavigatedToTimeLine = {
+              backStack.clear()
+              backStack.add(PublicTimelineKey)
+            },
           )
         }
         // ほかの画面キーも同様に entry を追加

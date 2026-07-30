@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 sealed interface RegisterNavigationEvent {
-  data object Registered : RegisterNavigationEvent
+  data class Registered(val username: String) : RegisterNavigationEvent
   data object NavigatedToLogin : RegisterNavigationEvent
 }
 
@@ -64,7 +64,7 @@ class RegisterViewModel (
         )
       ) {
         is RegisterUserUseCaseResult.Success -> {
-          _navigationEvent.send(RegisterNavigationEvent.Registered)
+          _navigationEvent.send(RegisterNavigationEvent.Registered(snapBindingModel.username))
         }
         is RegisterUserUseCaseResult.Failure -> {
           // TODO:エラー表示

@@ -8,7 +8,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun RegisterPage(
-  onRegistered: () -> Unit,
+  onRegistered: (String) -> Unit,
   onNavigatedToLogin: () -> Unit,
   registerViewModel: RegisterViewModel = koinViewModel(),
 ) {
@@ -17,8 +17,8 @@ fun RegisterPage(
   LaunchedEffect(registerViewModel) {
     registerViewModel.navigationEvent.collect { navigationEvent ->
       when (navigationEvent) {
-        RegisterNavigationEvent.Registered -> onRegistered()
-        RegisterNavigationEvent.NavigatedToLogin -> onNavigatedToLogin()
+        is RegisterNavigationEvent.Registered -> onRegistered(navigationEvent.username)
+        is RegisterNavigationEvent.NavigatedToLogin -> onNavigatedToLogin()
       }
     }
   }
