@@ -16,19 +16,17 @@ import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.dmm.bootcamp.yatter.ui.component.YatterTopAppBar
 import com.dmm.bootcamp.yatter.ui.theme.YatterTheme
 import com.dmm.bootcamp.yatter.ui.timeline.bindingmodel.YweetBindingModel
+import com.dmm.bootcamp.yatter.ui.timeline.component.LogoutButton
 
 // 実験的に追加されているAPIを利用する @OptIn~
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
@@ -39,20 +37,15 @@ fun PublicTimelineTemplate(
   isLoading: Boolean,
   isRefreshing: Boolean,
   onRefresh: () -> Unit,
+  onLogout: () -> Unit,
 ) {
   val pullRefreshState = rememberPullRefreshState(isRefreshing, onRefresh)
 
   Scaffold(
     topBar = {
-      TopAppBar(
-        title = {
-          Text(
-            text = "タイムライン",
-            color = MaterialTheme.colorScheme.onPrimary,
-          )        },
-        colors = TopAppBarDefaults.topAppBarColors(
-          containerColor = MaterialTheme.colorScheme.primary
-        )
+      YatterTopAppBar(
+        title = "タイムライン",
+        actions = { LogoutButton(onLogout) },
       )
     },
     floatingActionButton = {
@@ -127,9 +120,10 @@ private fun PublicTimelineTemplatePreview() {
           ),
         ),
         onClickPost = {},
-        isLoading = true,
+        isLoading = false,
         isRefreshing = false,
-        onRefresh = {}
+        onRefresh = {},
+        onLogout = {}
       )
     }
   }

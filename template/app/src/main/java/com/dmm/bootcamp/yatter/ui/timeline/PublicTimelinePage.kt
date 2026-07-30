@@ -11,6 +11,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun PublicTimelinePage(
   onNavigateToPost: () -> Unit,
+  onNavigateToLogin: () -> Unit,
   // koinViewModelはDIからViewModelを呼び出す
   publicTimelineViewModel: PublicTimelineViewModel = koinViewModel(),
 ) {
@@ -29,6 +30,9 @@ fun PublicTimelinePage(
         is PublicTimelineNavigationEvent.NavigateToPost -> {
           onNavigateToPost()
         }
+        is PublicTimelineNavigationEvent.NavigateToLogin -> {
+          onNavigateToLogin()
+        }
       }
     }
   }
@@ -39,5 +43,6 @@ fun PublicTimelinePage(
     isLoading = uiState.isLoading,
     isRefreshing = uiState.isRefreshing,
     onRefresh = publicTimelineViewModel::onRefresh, //::は後で実行させる
+    onLogout =publicTimelineViewModel::onClickLogout,
   )
 }

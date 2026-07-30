@@ -64,7 +64,11 @@ fun MainApp(mainViewModel: MainViewModel = koinViewModel()) {
         }
         entry<PublicTimelineKey> {
           PublicTimelinePage(
-            onNavigateToPost = { backStack.add(PostKey) }
+            onNavigateToPost = { backStack.add(PostKey) },
+            onNavigateToLogin = {
+              backStack.clear()
+              backStack.add(LoginKey)
+            }
           )
         }
         entry<PostKey> {

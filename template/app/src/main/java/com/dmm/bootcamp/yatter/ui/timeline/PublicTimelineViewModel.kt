@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dmm.bootcamp.yatter.domain.repository.YweetRepository
 import com.dmm.bootcamp.yatter.ui.timeline.bindingmodel.converter.YweetConverter
+import com.dmm.bootcamp.yatter.usecase.logout.LogoutUseCase
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,10 +16,12 @@ import kotlinx.coroutines.launch
 
 sealed interface PublicTimelineNavigationEvent {
   data object NavigateToPost : PublicTimelineNavigationEvent
+  data object NavigateToLogin : PublicTimelineNavigationEvent
 }
 
 class PublicTimelineViewModel(
   private val yweetRepository: YweetRepository,
+  private val logoutUseCase: LogoutUseCase
 ) : ViewModel() {
   //  変更可能
   private val _uiState: MutableStateFlow<PublicTimelineUiState> =
@@ -37,6 +40,11 @@ class PublicTimelineViewModel(
         yweetList = YweetConverter.convertToBindingModel(yweetList),
       )
     }
+  }
+
+  // ログアウト
+  private suspend fun logout() {
+    logoutUseCase.execute()
   }
 
   fun onClickPost() {
@@ -60,6 +68,16 @@ class PublicTimelineViewModel(
       _uiState.update { it.copy(isRefreshing = true) }
       fetchPublicTimeline()
       _uiState.update { it.copy(isRefreshing = false) }
+    }
+  }
+
+  fun onClickLogout() {
+    viewModelScope.launch {
+      _uiState.update { it.copy(isRefreshing = true) }
+      // ログアウト
+      logout()
+      _uiState.update { it.copy(isRefreshing = false) }
+      _navigationEvent.send(PublicTimelineNavigationEvent.NavigateToLogin)
     }
   }
 }
