@@ -2,4 +2,9 @@
 <resources>
 
     <style name="Theme.Yatter" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
+    <style name="Theme.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/purple_100</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.Yatter</item>
+    </style>
 </resources>
