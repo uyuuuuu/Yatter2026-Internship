@@ -12,34 +12,33 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.dmm.bootcamp.yatter.ui.component.YatterBackButton
 import com.dmm.bootcamp.yatter.ui.component.YatterTopAppBar
 import com.dmm.bootcamp.yatter.ui.theme.YatterTheme
 import java.io.File
 
 @Composable
-fun UpdateUserTemplate(
+fun FirstUpdateUserTemplate(
   displayName: String?,
   onChangedDisplayName: (String) -> Unit,
   note: String?,
   onChangedNote: (String) -> Unit,
-  avatar: Any?,
+  avatar: File?,
   onChangedAvatar: (File) -> Unit,
   isLoading: Boolean,
-  onClickUpdate: () -> Unit,
-  onClickNavIcon: () -> Unit,
+  onClickRegister: () -> Unit,
+  onClickSkip: () -> Unit,
 ) {
 
   Scaffold(
     topBar = {
       YatterTopAppBar(
-        title = "プロフィール編集",
-        navigationIcon = { YatterBackButton(onClickNavIcon) }
+        title = "プロフィール登録",
       )
     }
   ) { paddingValues ->
@@ -106,11 +105,19 @@ fun UpdateUserTemplate(
 //          text = "アイコン画像"
 //        )
         Button(
-          onClick = onClickUpdate,
+          onClick = onClickRegister,
           modifier = Modifier
             .fillMaxWidth()
         ) {
-          Text("保存")
+          Text("登録")
+        }
+        TextButton(
+          onClick = onClickSkip,
+          modifier = Modifier
+            .fillMaxWidth()
+            .padding(top=8.dp)
+        ) {
+          Text("後で登録する")
         }
       }
       if (isLoading) {
@@ -122,10 +129,10 @@ fun UpdateUserTemplate(
 
 @Preview
 @Composable
-private fun UpdateUserTemplatePreview() {
+private fun FirstUpdateUserTemplatePreview() {
   YatterTheme {
     Surface {
-      UpdateUserTemplate (
+      FirstUpdateUserTemplate (
         displayName = null,
         onChangedDisplayName = {},
         note = null,
@@ -133,8 +140,8 @@ private fun UpdateUserTemplatePreview() {
         avatar = null,
         onChangedAvatar = {},
         isLoading = false,
-        onClickUpdate = {},
-        onClickNavIcon = {},
+        onClickRegister = {},
+        onClickSkip = {},
       )
     }
   }

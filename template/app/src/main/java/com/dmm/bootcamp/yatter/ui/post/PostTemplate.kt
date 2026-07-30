@@ -20,10 +20,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
+import com.dmm.bootcamp.yatter.R
+import com.dmm.bootcamp.yatter.ui.component.YatterAvatarIcon
 import com.dmm.bootcamp.yatter.ui.component.YatterBackButton
 import com.dmm.bootcamp.yatter.ui.component.YatterTopAppBar
 import com.dmm.bootcamp.yatter.ui.post.bindingmodel.PostBindingModel
@@ -58,11 +59,10 @@ fun PostTemplate(
         modifier = Modifier
           .fillMaxSize(),
       ) {
-        AsyncImage(
+        YatterAvatarIcon(
+          avatar = postBindingModel.avatarUrl,
           modifier = Modifier.size(64.dp),
-          model = postBindingModel.avatarUrl,
-          contentDescription = "アバター画像",
-          contentScale = ContentScale.Crop,
+          contentDescription = stringResource(id = R.string.public_timeline_avatar_content_description),
         )
         Column(
           horizontalAlignment = Alignment.End

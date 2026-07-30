@@ -24,16 +24,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.content.res.ResourcesCompat
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.dmm.bootcamp.yatter.R
+import com.dmm.bootcamp.yatter.ui.component.YatterAvatarIcon
 import com.dmm.bootcamp.yatter.ui.component.YatterBackButton
 import com.dmm.bootcamp.yatter.ui.component.YatterTopAppBar
 import com.dmm.bootcamp.yatter.ui.detail.bindingmodel.DetailBindingModel
@@ -73,30 +71,10 @@ fun DetailTemplate(
           horizontalArrangement = Arrangement.spacedBy(8.dp),
           verticalAlignment = Alignment.CenterVertically,
         ) {
-          val context = LocalContext.current
-
-          // プレイスホルダー画像の生成
-          // アイコン未設定状態
-          val placeholder = ResourcesCompat.getDrawable(
-            context.resources,
-            R.drawable.avatar_placeholder,
-            null,
-          )
-
-          AsyncImage( // Coinライブラリ
+          YatterAvatarIcon(
+            avatar = yweet.avatar,
             modifier = Modifier.size(48.dp),
-            // ImageRequestを作成して、
-            // 画像取得できていない状態のプレイスホルダー設定
-            model = ImageRequest.Builder(context)
-              .data(yweet.avatar)
-              .placeholder(placeholder)
-              .error(placeholder)
-              .fallback(placeholder)
-              // モックサーバーから画像取得する場合のみ追加
-              .setHeader("User-Agent", "Mozilla/5.0")
-              .build(),
             contentDescription = stringResource(id = R.string.public_timeline_avatar_content_description),
-            contentScale = ContentScale.Crop,
           )
 
           Column() {

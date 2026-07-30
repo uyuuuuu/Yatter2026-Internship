@@ -21,7 +21,6 @@ sealed interface LoginNavigationEvent {
 }
 
 class LoginViewModel (
-  // POSTの画面なのでRepoじゃなくてUseCase
   private val loginUseCase: LoginUseCase,
 ): ViewModel() {
   private val _uiState: MutableStateFlow<LoginUiState> =

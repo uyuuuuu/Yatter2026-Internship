@@ -5,5 +5,5 @@ import java.io.File
 data class UpdateUserBindingModel(
   val displayName: String?,
   val note: String?,
-  val avatar: File?,
+  val avatar: Any?,
 )

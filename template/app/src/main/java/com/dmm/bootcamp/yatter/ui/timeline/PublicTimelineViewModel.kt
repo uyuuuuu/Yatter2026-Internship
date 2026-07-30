@@ -18,6 +18,7 @@ sealed interface PublicTimelineNavigationEvent {
   data object NavigateToPost : PublicTimelineNavigationEvent
   data object NavigateToLogin : PublicTimelineNavigationEvent
   data class NavigateToDetail(val id: String): PublicTimelineNavigationEvent
+  data class NavigateToProfile(val username: String): PublicTimelineNavigationEvent
 }
 
 class PublicTimelineViewModel(
@@ -57,6 +58,12 @@ class PublicTimelineViewModel(
   fun onClickYweet(yweetId: String) {
     viewModelScope.launch {
       _navigationEvent.send(PublicTimelineNavigationEvent.NavigateToDetail(yweetId))
+    }
+  }
+
+  fun onClickAvatar(username: String) {
+    viewModelScope.launch {
+      _navigationEvent.send(PublicTimelineNavigationEvent.NavigateToProfile(username))
     }
   }
 

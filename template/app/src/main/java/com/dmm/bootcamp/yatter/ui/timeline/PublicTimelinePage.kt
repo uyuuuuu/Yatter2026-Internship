@@ -13,6 +13,7 @@ fun PublicTimelinePage(
   onNavigateToPost: () -> Unit,
   onNavigateToLogin: () -> Unit,
   onNavigateToDetail: (String) -> Unit,
+  onNavigateToProfile: (String) -> Unit,
   // koinViewModelはDIからViewModelを呼び出す
   publicTimelineViewModel: PublicTimelineViewModel = koinViewModel(),
 ) {
@@ -37,6 +38,9 @@ fun PublicTimelinePage(
         is PublicTimelineNavigationEvent.NavigateToDetail -> {
           onNavigateToDetail(ev.id)
         }
+        is PublicTimelineNavigationEvent.NavigateToProfile -> {
+          onNavigateToProfile(ev.username)
+        }
       }
     }
   }
@@ -45,6 +49,7 @@ fun PublicTimelinePage(
     yweetList = uiState.yweetList,
     onClickPost = publicTimelineViewModel::onClickPost,
     onClickYweet = {id -> publicTimelineViewModel.onClickYweet(id)},
+    onClickAvatar = {username -> publicTimelineViewModel.onClickAvatar(username)},
     isLoading = uiState.isLoading,
     isRefreshing = uiState.isRefreshing,
     onRefresh = publicTimelineViewModel::onRefresh, //::は後で実行させる

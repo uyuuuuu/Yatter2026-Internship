@@ -26,8 +26,8 @@ fun PostPage(
     // イベント受信
     postViewModel.navigationEvent.collect { navigationEvent ->
       when (navigationEvent) {
-        PostNavigationEvent.Posted -> onPosted()
-        PostNavigationEvent.Back -> onBack()
+        is PostNavigationEvent.Posted -> onPosted()
+        is PostNavigationEvent.Back -> onBack()
       }
     }
   }

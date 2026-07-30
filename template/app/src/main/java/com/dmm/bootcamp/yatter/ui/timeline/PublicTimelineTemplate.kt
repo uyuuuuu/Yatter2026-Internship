@@ -36,6 +36,7 @@ fun PublicTimelineTemplate(
   yweetList: List<YweetBindingModel>,
   onClickPost: () -> Unit,
   onClickYweet: (id: String) -> Unit,
+  onClickAvatar: (username: String) -> Unit,
   isLoading: Boolean,
   isRefreshing: Boolean,
   onRefresh: () -> Unit,
@@ -62,8 +63,8 @@ fun PublicTimelineTemplate(
     Box(
       modifier = Modifier
         .fillMaxSize()
-        .pullRefresh(pullRefreshState) // refresh検知
-        .padding(paddingValues),
+        .padding(paddingValues)
+        .pullRefresh(pullRefreshState), // refresh検知
       contentAlignment = Alignment.Center,
     ) {
       LazyColumn(
@@ -74,7 +75,8 @@ fun PublicTimelineTemplate(
         items(yweetList) { item ->
           YweetRow(
             yweetBindingModel = item,
-            onClickYweet = {onClickYweet(item.id)}
+            onClickYweet = {onClickYweet(item.id)},
+            onClickAvatar = {onClickAvatar(item.username)}
           )
         }
       }
@@ -126,6 +128,7 @@ private fun PublicTimelineTemplatePreview() {
         ),
         onClickPost = {},
         onClickYweet = {},
+        onClickAvatar = {},
         isLoading = false,
         isRefreshing = false,
         onRefresh = {},

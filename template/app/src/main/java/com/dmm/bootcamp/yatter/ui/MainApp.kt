@@ -17,13 +17,17 @@ import com.dmm.bootcamp.yatter.ui.login.LoginPage
 import com.dmm.bootcamp.yatter.ui.navigation.DetailKey
 import com.dmm.bootcamp.yatter.ui.navigation.LoginKey
 import com.dmm.bootcamp.yatter.ui.navigation.PostKey
+import com.dmm.bootcamp.yatter.ui.navigation.ProfileKey
 import com.dmm.bootcamp.yatter.ui.navigation.PublicTimelineKey
 import com.dmm.bootcamp.yatter.ui.navigation.RegisterKey
+import com.dmm.bootcamp.yatter.ui.navigation.RegisterProfileKey
 import com.dmm.bootcamp.yatter.ui.navigation.UpdateKey
 import com.dmm.bootcamp.yatter.ui.navigation.YatterNavKey
 import com.dmm.bootcamp.yatter.ui.post.PostPage
+import com.dmm.bootcamp.yatter.ui.profile.ProfilePage
 import com.dmm.bootcamp.yatter.ui.register.RegisterPage
 import com.dmm.bootcamp.yatter.ui.timeline.PublicTimelinePage
+import com.dmm.bootcamp.yatter.ui.updateuser.FirstUpdateUserPage
 import com.dmm.bootcamp.yatter.ui.updateuser.UpdateUserPage
 import org.koin.androidx.compose.koinViewModel
 @Composable
@@ -74,6 +78,7 @@ fun MainApp(mainViewModel: MainViewModel = koinViewModel()) {
               backStack.add(LoginKey)
             },
             onNavigateToDetail = { id -> backStack.add(DetailKey(yweetId = id)) },
+            onNavigateToProfile = { username -> backStack.add(ProfileKey(username)) },
           )
         }
         entry<PostKey> {
@@ -94,13 +99,27 @@ fun MainApp(mainViewModel: MainViewModel = koinViewModel()) {
             onBack = onBack,
           )
         }
-        entry<UpdateKey> { key ->
-          UpdateUserPage(
+        entry<RegisterProfileKey> { key ->
+          FirstUpdateUserPage(
             username = key.username,
             onNavigatedToTimeLine = {
               backStack.clear()
               backStack.add(PublicTimelineKey)
             },
+          )
+        }
+        entry<UpdateKey> { key ->
+          UpdateUserPage(
+            username = key.username,
+            onBack = onBack,
+          )
+        }
+        entry<ProfileKey> { key ->
+          ProfilePage(
+            username = key.username,
+            onNavToUpdateUser = { backStack.add(UpdateKey(key.username)) },
+            onNavToDetail = { id -> backStack.add(DetailKey(id)) },
+            onBack = onBack,
           )
         }
         // ほかの画面キーも同様に entry を追加

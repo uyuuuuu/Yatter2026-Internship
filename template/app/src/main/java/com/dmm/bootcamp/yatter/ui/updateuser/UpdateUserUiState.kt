@@ -5,12 +5,14 @@ import com.dmm.bootcamp.yatter.ui.updateuser.bindingmodel.UpdateUserBindingModel
 
 data class UpdateUserUiState(
   val me: User?,
+  val initialData: UpdateUserBindingModel?,
   val bindingModel: UpdateUserBindingModel,
   val isLoading: Boolean,
 ) {
   companion object {
     fun empty(): UpdateUserUiState = UpdateUserUiState(
       me = null,
+      initialData = null,
       bindingModel = UpdateUserBindingModel(
         displayName = null,
         note = null,

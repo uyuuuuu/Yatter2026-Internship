@@ -8,39 +8,40 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dmm.bootcamp.yatter.domain.model.Username
 import org.koin.androidx.compose.koinViewModel
+import java.io.File
 
 @Composable
-fun UpdateUserPage(
+fun FirstUpdateUserPage(
   username: String,
-  onBack: () -> Unit,
+  onNavigatedToTimeLine: () -> Unit,
   updateUserViewModel: UpdateUserViewModel = koinViewModel(),
 ) {
   val uiState by updateUserViewModel.uiState.collectAsStateWithLifecycle()
 
   LifecycleEventEffect(event = Lifecycle.Event.ON_CREATE) {
-    updateUserViewModel.onCreateWithDefault(Username(username))
+    updateUserViewModel.onCreate(Username(username))
   }
 
   LaunchedEffect(updateUserViewModel) {
     updateUserViewModel.navigationEvent.collect { ev ->
       when (ev) {
-        is UpdateUserNavigationEvent.NavigatedToBack -> {
-          onBack()
+        is UpdateUserNavigationEvent.NavigatedToTimeLine -> {
+          onNavigatedToTimeLine()
         }
         else -> {}
       }
     }
   }
 
-  UpdateUserTemplate(
+  FirstUpdateUserTemplate(
     displayName = uiState.bindingModel.displayName,
     onChangedDisplayName = {displayname -> updateUserViewModel.onChangedDisplayName(displayname)},
     note = uiState.bindingModel.note,
     onChangedNote = {note -> updateUserViewModel.onChangedNote(note)},
-    avatar = uiState.bindingModel.avatar,
+    avatar = uiState.bindingModel.avatar as? File,
     onChangedAvatar = {avatar -> updateUserViewModel.onChangedAvatar(avatar)},
     isLoading = false,
-    onClickUpdate = updateUserViewModel::onClickUpdate,
-    onClickNavIcon = updateUserViewModel::onClickNavIcon,
+    onClickRegister = updateUserViewModel::onClickRegister,
+    onClickSkip = updateUserViewModel::onClickSkip,
   )
 }

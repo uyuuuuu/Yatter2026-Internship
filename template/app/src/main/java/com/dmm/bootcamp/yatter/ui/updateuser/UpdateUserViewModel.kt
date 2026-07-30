@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dmm.bootcamp.yatter.domain.model.Username
 import com.dmm.bootcamp.yatter.domain.repository.UserRepository
+import com.dmm.bootcamp.yatter.ui.updateuser.bindingmodel.UpdateUserBindingModel
 import com.dmm.bootcamp.yatter.usecase.update.UpdateUserUseCase
 import com.dmm.bootcamp.yatter.usecase.update.UpdateUserUseCaseResult
 import kotlinx.coroutines.channels.Channel
@@ -18,6 +19,7 @@ import java.io.File
 
 sealed interface UpdateUserNavigationEvent {
   data object NavigatedToTimeLine : UpdateUserNavigationEvent
+  data object NavigatedToBack : UpdateUserNavigationEvent
 }
 
 class UpdateUserViewModel(
@@ -44,11 +46,31 @@ class UpdateUserViewModel(
       }
     }
   }
+
+  fun onCreateWithDefault(username: Username) {
+    viewModelScope.launch {
+      _uiState.update { it.copy(isLoading = true) }
+
+      val me = userRepository.findByUsername(username, false)
+
+      if (me != null) {
+        _uiState.update { it.copy(
+          me = me,
+          bindingModel = UpdateUserBindingModel(
+            displayName = me.displayName,
+            note = me.note,
+            avatar = me.avatar,
+          ),
+          isLoading = false
+        )}
+      }
+    }
+  }
   fun onChangedDisplayName(displayName: String) {
     val snapshotBindingModel = uiState.value.bindingModel
     _uiState.update {
       it.copy(
-        bindingModel = snapshotBindingModel.copy( displayName = displayName.ifBlank { null } )
+        bindingModel = snapshotBindingModel.copy( displayName = displayName )
       )
     }
   }
@@ -56,14 +78,14 @@ class UpdateUserViewModel(
     val snapshotBindingModel = uiState.value.bindingModel
     _uiState.update {
       it.copy(
-        bindingModel = snapshotBindingModel.copy( note = note.ifBlank { null } )
+        bindingModel = snapshotBindingModel.copy( note = note )
       )
     }
   }
   fun onChangedAvatar(avatar: File) {
 
   }
-  fun onClickUpdate() {
+  fun onClickRegister() {
     viewModelScope.launch {
       // ローディングに
       _uiState.update { it.copy(isLoading = true) }
@@ -71,12 +93,13 @@ class UpdateUserViewModel(
       val snapBindingModel = uiState.value.bindingModel
       val me = uiState.value.me
       if(me!=null) {
+        val avatarFile = snapBindingModel.avatar as? File
         when (
           updateUserUseCase.execute(
             me = me,
             displayName = snapBindingModel.displayName,
             note = snapBindingModel.note,
-            avatar = snapBindingModel.avatar
+            avatar = avatarFile
           )
         ) {
           is UpdateUserUseCaseResult.Success -> {
@@ -92,9 +115,44 @@ class UpdateUserViewModel(
     }
   }
 
+  fun onClickUpdate() {
+    viewModelScope.launch {
+      // ローディングに
+      _uiState.update { it.copy(isLoading = true) }
+      // ログイン処理
+      val snapBindingModel = uiState.value.bindingModel
+      val me = uiState.value.me
+      if(me!=null) {
+        val avatarFile = snapBindingModel.avatar as? File
+        when (
+          updateUserUseCase.execute(
+            me = me,
+            displayName = snapBindingModel.displayName,
+            note = snapBindingModel.note,
+            avatar = avatarFile
+          )
+        ) {
+          is UpdateUserUseCaseResult.Success -> {
+            _navigationEvent.send(UpdateUserNavigationEvent.NavigatedToBack)
+          }
+          is UpdateUserUseCaseResult.Failure -> {
+            // TODO:エラー表示
+          }
+        }
+      }
+      // ローディング解除
+      _uiState.update { it.copy(isLoading = false) }
+    }
+  }
+
   fun onClickSkip() {
     viewModelScope.launch {
       _navigationEvent.send(UpdateUserNavigationEvent.NavigatedToTimeLine)
+    }
+  }
+  fun onClickNavIcon() {
+    viewModelScope.launch {
+      _navigationEvent.send(UpdateUserNavigationEvent.NavigatedToBack)
     }
   }
 }
