@@ -1,5 +1,6 @@
-package com.dmm.bootcamp.yatter.ui.timeline
+package com.dmm.bootcamp.yatter.ui.timeline.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -43,12 +44,14 @@ import com.dmm.bootcamp.yatter.ui.timeline.bindingmodel.YweetBindingModel
 @Composable
 fun YweetRow(
   yweetBindingModel: YweetBindingModel,
+  onClickYweet: () -> Unit,
   modifier: Modifier = Modifier,
 ) {
   Row( // 横並び
     modifier = modifier
       .fillMaxWidth()
-      .padding(vertical = 4.dp),
+      .padding(vertical = 4.dp)
+      .clickable{ onClickYweet() },
     horizontalArrangement = Arrangement.spacedBy(8.dp),
   ) {
     val context = LocalContext.current
@@ -78,7 +81,9 @@ fun YweetRow(
     )
 
     // 表示名@user、Yweet文を縦に
-    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+    Column(
+      verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
       // 表示名
       Text(
         text = buildAnnotatedString {
@@ -137,7 +142,8 @@ private fun YweetRowPreview() {
               description = "icon"
             )
           )
-        )
+        ),
+        onClickYweet = {}
       )
     }
   }

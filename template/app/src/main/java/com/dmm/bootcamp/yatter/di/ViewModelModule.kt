@@ -1,6 +1,7 @@
 package com.dmm.bootcamp.yatter.di
 
 import com.dmm.bootcamp.yatter.ui.MainViewModel
+import com.dmm.bootcamp.yatter.ui.detail.DetailViewModel
 import com.dmm.bootcamp.yatter.ui.login.LoginViewModel
 import com.dmm.bootcamp.yatter.ui.post.PostViewModel
 import com.dmm.bootcamp.yatter.ui.register.RegisterViewModel
@@ -11,6 +12,7 @@ import org.koin.dsl.module
 internal val viewModelModule = module {
    viewModel { MainViewModel(get()) }
    viewModel { PublicTimelineViewModel(get(), get()) }
+   viewModel { DetailViewModel(get()) }
    viewModel { PostViewModel(get(), get()) }
    viewModel { RegisterViewModel(get()) }
    viewModel { LoginViewModel(get()) }

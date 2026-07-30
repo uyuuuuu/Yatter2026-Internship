@@ -12,7 +12,9 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import com.dmm.bootcamp.yatter.ui.detail.DetailPage
 import com.dmm.bootcamp.yatter.ui.login.LoginPage
+import com.dmm.bootcamp.yatter.ui.navigation.DetailKey
 import com.dmm.bootcamp.yatter.ui.navigation.LoginKey
 import com.dmm.bootcamp.yatter.ui.navigation.PostKey
 import com.dmm.bootcamp.yatter.ui.navigation.PublicTimelineKey
@@ -68,7 +70,8 @@ fun MainApp(mainViewModel: MainViewModel = koinViewModel()) {
             onNavigateToLogin = {
               backStack.clear()
               backStack.add(LoginKey)
-            }
+            },
+            onNavigateToDetail = { id -> backStack.add(DetailKey(yweetId = id)) },
           )
         }
         entry<PostKey> {
@@ -81,6 +84,12 @@ fun MainApp(mainViewModel: MainViewModel = koinViewModel()) {
           RegisterPage(
             onRegistered = { backStack.add(PublicTimelineKey) },
             onNavigatedToLogin = { backStack.add(LoginKey) },
+          )
+        }
+        entry<DetailKey> { key ->
+          DetailPage(
+            yweetId = key.yweetId,
+            onBack = onBack,
           )
         }
         // ほかの画面キーも同様に entry を追加

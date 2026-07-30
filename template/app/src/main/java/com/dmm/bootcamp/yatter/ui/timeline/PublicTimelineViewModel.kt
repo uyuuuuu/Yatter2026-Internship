@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 sealed interface PublicTimelineNavigationEvent {
   data object NavigateToPost : PublicTimelineNavigationEvent
   data object NavigateToLogin : PublicTimelineNavigationEvent
+  data class NavigateToDetail(val id: String): PublicTimelineNavigationEvent
 }
 
 class PublicTimelineViewModel(
@@ -50,6 +51,12 @@ class PublicTimelineViewModel(
   fun onClickPost() {
     viewModelScope.launch {
       _navigationEvent.send(PublicTimelineNavigationEvent.NavigateToPost)
+    }
+  }
+
+  fun onClickYweet(yweetId: String) {
+    viewModelScope.launch {
+      _navigationEvent.send(PublicTimelineNavigationEvent.NavigateToDetail(yweetId))
     }
   }
 

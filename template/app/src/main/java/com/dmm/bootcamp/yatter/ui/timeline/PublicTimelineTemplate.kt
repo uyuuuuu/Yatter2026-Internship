@@ -27,6 +27,7 @@ import com.dmm.bootcamp.yatter.ui.component.YatterTopAppBar
 import com.dmm.bootcamp.yatter.ui.theme.YatterTheme
 import com.dmm.bootcamp.yatter.ui.timeline.bindingmodel.YweetBindingModel
 import com.dmm.bootcamp.yatter.ui.timeline.component.LogoutButton
+import com.dmm.bootcamp.yatter.ui.timeline.component.YweetRow
 
 // 実験的に追加されているAPIを利用する @OptIn~
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
@@ -34,6 +35,7 @@ import com.dmm.bootcamp.yatter.ui.timeline.component.LogoutButton
 fun PublicTimelineTemplate(
   yweetList: List<YweetBindingModel>,
   onClickPost: () -> Unit,
+  onClickYweet: (id: String) -> Unit,
   isLoading: Boolean,
   isRefreshing: Boolean,
   onRefresh: () -> Unit,
@@ -66,11 +68,15 @@ fun PublicTimelineTemplate(
       contentAlignment = Alignment.Center,
     ) {
       LazyColumn(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+          .fillMaxSize(),
         contentPadding = PaddingValues(8.dp),
       ) {
         items(yweetList) { item ->
-          YweetRow(yweetBindingModel = item)
+          YweetRow(
+            yweetBindingModel = item,
+            onClickYweet = {onClickYweet(item.id)}
+          )
         }
       }
       // refreshのぐるぐる
@@ -120,6 +126,7 @@ private fun PublicTimelineTemplatePreview() {
           ),
         ),
         onClickPost = {},
+        onClickYweet = {},
         isLoading = false,
         isRefreshing = false,
         onRefresh = {},
