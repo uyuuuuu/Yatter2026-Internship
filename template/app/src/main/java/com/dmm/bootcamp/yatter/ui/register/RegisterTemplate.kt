@@ -7,15 +7,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dmm.bootcamp.yatter.ui.component.YatterBackButton
@@ -32,13 +36,13 @@ fun RegisterTemplate (
   isEnableRegister: Boolean,
   isLoading: Boolean,
   onClickRegister: () -> Unit,
-  onClickNavIcon: () -> Unit,) {
+  onClickLogin: () -> Unit,) {
 
   Scaffold(
     topBar = {
       YatterTopAppBar(
         title = "新規登録",
-        navigationIcon = { YatterBackButton(onClickNavIcon) }
+        navigationIcon = { YatterBackButton(onClickLogin) }
       )
     }
   ) { paddingValues ->
@@ -105,6 +109,24 @@ fun RegisterTemplate (
         ) {
           Text("登録")
         }
+        HorizontalDivider(
+          modifier = Modifier.padding(vertical = 16.dp),
+          thickness = DividerDefaults.Thickness,
+          color = DividerDefaults.color
+        )
+
+        Text(
+          text = "または",
+          modifier = Modifier.fillMaxWidth(),
+          textAlign = TextAlign.Center,
+          style = MaterialTheme.typography.bodyMedium
+        )
+        TextButton(
+          onClick = onClickLogin,
+          modifier = Modifier.fillMaxWidth()
+        ) {
+          Text(text = "ログイン")
+        }
       }
       if (isLoading) {
         CircularProgressIndicator()
@@ -126,7 +148,7 @@ private fun RegisterTemplatePreview() {
         isEnableRegister = true,
         isLoading = false,
         onClickRegister = {},
-        onClickNavIcon = {},
+        onClickLogin = {},
       )
     }
   }

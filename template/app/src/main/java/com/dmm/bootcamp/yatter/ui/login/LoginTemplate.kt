@@ -17,14 +17,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.dmm.bootcamp.yatter.ui.component.YatterTopAppBar
 import com.dmm.bootcamp.yatter.ui.theme.YatterTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -41,15 +40,8 @@ fun LoginTemplate(
 ) {
   Scaffold(
     topBar = {
-      TopAppBar(
-        title = {
-          Text(
-            text = "ログイン",
-            color = MaterialTheme.colorScheme.onPrimary,
-          )        },
-        colors = TopAppBarDefaults.topAppBarColors(
-          containerColor = MaterialTheme.colorScheme.primary
-        )
+      YatterTopAppBar(
+        title = "ログイン",
       )
     }
   ) { paddingValues ->

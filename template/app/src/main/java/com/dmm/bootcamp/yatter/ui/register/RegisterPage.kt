@@ -31,6 +31,6 @@ fun RegisterPage(
     isEnableRegister = uiState.isEnableRegister,
     isLoading = uiState.isLoading,
     onClickRegister = registerViewModel::onClickRegister,
-    onClickNavIcon = registerViewModel::onClickLogin,
+    onClickLogin = registerViewModel::onClickLogin,
   )
 }
