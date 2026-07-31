@@ -1,8 +1,11 @@
 package com.dmm.bootcamp.yatter.ui.updateuser
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -17,6 +20,14 @@ fun FirstUpdateUserPage(
   updateUserViewModel: UpdateUserViewModel = koinViewModel(),
 ) {
   val uiState by updateUserViewModel.uiState.collectAsStateWithLifecycle()
+  val context = LocalContext.current
+
+  val imagePickerLauncher = rememberLauncherForActivityResult(
+    contract = ActivityResultContracts.GetContent(),
+  ) { uri ->
+    uri ?: return@rememberLauncherForActivityResult
+    updateUserViewModel.onSelectImage(uri)
+  }
 
   LifecycleEventEffect(event = Lifecycle.Event.ON_CREATE) {
     updateUserViewModel.onCreate(Username(username))
@@ -39,9 +50,10 @@ fun FirstUpdateUserPage(
     note = uiState.bindingModel.note,
     onChangedNote = {note -> updateUserViewModel.onChangedNote(note)},
     avatar = uiState.bindingModel.avatar as? File,
+    onClickSelectImage = {imagePickerLauncher.launch("image/*")},
     onChangedAvatar = {avatar -> updateUserViewModel.onChangedAvatar(avatar)},
     isLoading = false,
-    onClickRegister = updateUserViewModel::onClickRegister,
+    onClickRegister = {updateUserViewModel.onClickRegister(context)},
     onClickSkip = updateUserViewModel::onClickSkip,
   )
 }

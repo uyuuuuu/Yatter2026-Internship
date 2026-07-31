@@ -70,9 +70,10 @@ fun YweetRow(
       Text(
         modifier = Modifier
           .fillMaxWidth()
-          .clickable(
-            enabled = (onClickAvatar != null),
-            onClick = onClickAvatar ?: {}
+          .then(
+            if (onClickAvatar != null) {
+              Modifier.clickable(onClick = onClickAvatar)
+            } else { Modifier }
           ),
         text = buildAnnotatedString {
           append(yweetBindingModel.displayName)

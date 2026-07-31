@@ -1,5 +1,9 @@
 package com.dmm.bootcamp.yatter.ui.updateuser
 
+import android.content.Context
+import android.net.Uri
+import android.util.Log
+import android.webkit.MimeTypeMap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dmm.bootcamp.yatter.domain.model.Username
@@ -59,7 +63,7 @@ class UpdateUserViewModel(
           bindingModel = UpdateUserBindingModel(
             displayName = me.displayName,
             note = me.note,
-            avatar = me.avatar,
+            avatar = me.avatar?.toString(),
           ),
           isLoading = false
         )}
@@ -82,10 +86,31 @@ class UpdateUserViewModel(
       )
     }
   }
-  fun onChangedAvatar(avatar: File) {
-
+  fun onSelectImage(uri: Uri) {
+    _uiState.update {
+      it.copy(
+        bindingModel = it.bindingModel.copy(
+          avatar = uri,
+        ),
+      )
+    }
   }
-  fun onClickRegister() {
+  private fun uriToFile(context: Context, uri: Uri): File? {
+    return context.contentResolver.openInputStream(uri)?.use { inputStream ->
+      val extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(
+        context.contentResolver.getType(uri),
+      ) ?: "jpg"
+      val file = File.createTempFile("image", ".$extension")
+      file.outputStream().use { outputStream ->
+        inputStream.copyTo(outputStream)
+      }
+      file
+    }
+  }
+  fun onChangedAvatar(avatar: File) {
+    Log.d("VM", "画像アップロードした")
+  }
+  fun onClickRegister(context: Context) {
     viewModelScope.launch {
       // ローディングに
       _uiState.update { it.copy(isLoading = true) }
@@ -93,7 +118,9 @@ class UpdateUserViewModel(
       val snapBindingModel = uiState.value.bindingModel
       val me = uiState.value.me
       if(me!=null) {
-        val avatarFile = snapBindingModel.avatar as? File
+        val avatarFile = (snapBindingModel.avatar as? Uri)?.let {
+          uriToFile(context, it)
+        }
         when (
           updateUserUseCase.execute(
             me = me,
@@ -115,7 +142,7 @@ class UpdateUserViewModel(
     }
   }
 
-  fun onClickUpdate() {
+  fun onClickUpdate(context: Context) {
     viewModelScope.launch {
       // ローディングに
       _uiState.update { it.copy(isLoading = true) }
@@ -123,7 +150,9 @@ class UpdateUserViewModel(
       val snapBindingModel = uiState.value.bindingModel
       val me = uiState.value.me
       if(me!=null) {
-        val avatarFile = snapBindingModel.avatar as? File
+        val avatarFile = (snapBindingModel.avatar as? Uri)?.let {
+          uriToFile(context, it)
+        }
         when (
           updateUserUseCase.execute(
             me = me,

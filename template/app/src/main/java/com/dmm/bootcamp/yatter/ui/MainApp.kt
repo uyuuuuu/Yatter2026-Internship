@@ -89,7 +89,7 @@ fun MainApp(mainViewModel: MainViewModel = koinViewModel()) {
         }
         entry<RegisterKey> {
           RegisterPage(
-            onRegistered = { username -> backStack.add(UpdateKey(username)) },
+            onRegistered = { username -> backStack.add(RegisterProfileKey(username)) },
             onNavigatedToLogin = { backStack.add(LoginKey) },
           )
         }

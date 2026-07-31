@@ -29,9 +29,11 @@ fun YatterAvatarIcon(
   AsyncImage(
     modifier = modifier
       .clip(CircleShape)
-      .clickable(
-        enabled = (onClick != null),
-        onClick = onClick ?: {}),
+      .then(
+        if (onClick != null) {
+          Modifier.clickable(onClick = onClick)
+          } else { Modifier }
+      ),
     // ImageRequestを作成して、
     // 画像取得できていない状態のプレイスホルダー設定
     model = ImageRequest.Builder(context)

@@ -28,6 +28,7 @@ fun FirstUpdateUserTemplate(
   note: String?,
   onChangedNote: (String) -> Unit,
   avatar: File?,
+  onClickSelectImage: () -> Unit,
   onChangedAvatar: (File) -> Unit,
   isLoading: Boolean,
   onClickRegister: () -> Unit,
@@ -58,12 +59,14 @@ fun FirstUpdateUserTemplate(
           note = note,
           onChangedNote = onChangedNote,
           avatar = avatar,
+          onClickSelectImage = onClickSelectImage,
           onChangedAvatar = onChangedAvatar
         )
         Button(
           onClick = onClickRegister,
           modifier = Modifier
             .fillMaxWidth()
+            .padding(top=12.dp)
         ) {
           Text("登録")
         }
@@ -97,6 +100,7 @@ private fun FirstUpdateUserTemplatePreview() {
         onChangedAvatar = {},
         isLoading = false,
         onClickRegister = {},
+        onClickSelectImage = {},
         onClickSkip = {},
       )
     }

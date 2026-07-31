@@ -32,21 +32,19 @@ class RegisterViewModel (
 
   // ユザネ変更
   fun onChangedUsername(username: String) {
-    val snapshotBindingModel = uiState.value.bindingModel
     _uiState.update {
       it.copy(
         validUsername = Username(username).validate(),
-        bindingModel = snapshotBindingModel.copy( username = username )
+        bindingModel = it.bindingModel.copy( username = username )
       )
     }
   }
   // パスワード変更
   fun onChangedPassword(password: String) {
-    val snapshotBindingModel = uiState.value.bindingModel
     _uiState.update {
       it.copy(
         validPassword = RegisterPassword(password).validate(),
-        bindingModel = snapshotBindingModel.copy( password = password )
+        bindingModel = it.bindingModel.copy( password = password )
       )
     }
   }

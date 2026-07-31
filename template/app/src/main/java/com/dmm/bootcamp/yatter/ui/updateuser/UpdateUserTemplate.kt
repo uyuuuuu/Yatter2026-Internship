@@ -28,6 +28,7 @@ fun UpdateUserTemplate(
   note: String?,
   onChangedNote: (String) -> Unit,
   avatar: Any?,
+  onClickSelectImage: () -> Unit,
   onChangedAvatar: (File) -> Unit,
   isLoading: Boolean,
   onClickUpdate: () -> Unit,
@@ -59,12 +60,14 @@ fun UpdateUserTemplate(
           note = note,
           onChangedNote = onChangedNote,
           avatar = avatar,
+          onClickSelectImage = onClickSelectImage,
           onChangedAvatar = onChangedAvatar
         )
         Button(
           onClick = onClickUpdate,
           modifier = Modifier
             .fillMaxWidth()
+            .padding(top=12.dp)
         ) {
           Text("保存")
         }
@@ -90,6 +93,7 @@ private fun UpdateUserTemplatePreview() {
         onChangedAvatar = {},
         isLoading = false,
         onClickUpdate = {},
+        onClickSelectImage = {},
         onClickNavIcon = {},
       )
     }
