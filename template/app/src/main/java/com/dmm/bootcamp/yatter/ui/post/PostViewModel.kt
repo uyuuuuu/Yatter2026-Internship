@@ -69,6 +69,18 @@ class PostViewModel(
     }
   }
 
+  fun onClickRemoveImage(uri: Uri) {
+    _uiState.update {
+      it.copy(
+        bindingModel = it.bindingModel.copy(
+          attachmentImageUris = it.bindingModel.attachmentImageUris.filterNot { imageUri ->
+            imageUri == uri
+          },
+        ),
+      )
+    }
+  }
+
   // 投稿ボタン 画像があるのでContext
   fun onClickPost(context: Context) {
     viewModelScope.launch {

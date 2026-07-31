@@ -2,10 +2,12 @@ package com.dmm.bootcamp.yatter.ui.timeline.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -94,18 +96,28 @@ fun YweetRow(
       Text(text = yweetBindingModel.content)
 
       // 添付画像
-      LazyRow {
+      LazyRow(
+        modifier = Modifier
+          .fillMaxWidth()
+          .then(
+            if (yweetBindingModel.attachmentImageList.isNotEmpty()) {
+              Modifier.height(200.dp)
+            } else { Modifier }
+          ),
+      ) {
         // itemsの第一引数に並べたいデータセットを渡す
         items(yweetBindingModel.attachmentImageList) { attachmentImage ->
           // データ1件あたりに表示したいコンポーザブルを呼び出す
-          AsyncImage(
-            model = attachmentImage.url,
-            contentDescription = attachmentImage.description,
-            modifier = Modifier
-              .fillParentMaxWidth(1f),
-            alignment = Alignment.CenterStart,
-            contentScale = ContentScale.Fit,
-          )
+          Box(){
+            AsyncImage(
+              model = attachmentImage.url,
+              contentDescription = attachmentImage.description,
+              modifier = Modifier
+                .fillParentMaxHeight(),
+              alignment = Alignment.CenterStart,
+              contentScale = ContentScale.FillHeight,
+            )
+          }
           Spacer(modifier = Modifier.width(4.dp))
         }
       }

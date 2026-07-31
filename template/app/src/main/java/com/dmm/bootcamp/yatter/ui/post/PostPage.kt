@@ -51,6 +51,7 @@ fun PostPage(
         imagePickerLauncher.launch("image/*")
       }
     },
+    onClickRemoveImage = {uri -> postViewModel.onClickRemoveImage(uri)},
     onClickPost = { postViewModel.onClickPost(context) },
     onClickNavIcon = postViewModel::onClickNavIcon,
   )
