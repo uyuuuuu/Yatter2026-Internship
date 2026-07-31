@@ -29,7 +29,6 @@ fun FirstUpdateUserTemplate(
   onChangedNote: (String) -> Unit,
   avatar: File?,
   onClickSelectImage: () -> Unit,
-  onChangedAvatar: (File) -> Unit,
   isLoading: Boolean,
   onClickRegister: () -> Unit,
   onClickSkip: () -> Unit,
@@ -60,7 +59,6 @@ fun FirstUpdateUserTemplate(
           onChangedNote = onChangedNote,
           avatar = avatar,
           onClickSelectImage = onClickSelectImage,
-          onChangedAvatar = onChangedAvatar
         )
         Button(
           onClick = onClickRegister,
@@ -97,7 +95,6 @@ private fun FirstUpdateUserTemplatePreview() {
         note = null,
         onChangedNote = {},
         avatar = null,
-        onChangedAvatar = {},
         isLoading = false,
         onClickRegister = {},
         onClickSelectImage = {},

@@ -51,7 +51,6 @@ fun FirstUpdateUserPage(
     onChangedNote = {note -> updateUserViewModel.onChangedNote(note)},
     avatar = uiState.bindingModel.avatar as? File,
     onClickSelectImage = {imagePickerLauncher.launch("image/*")},
-    onChangedAvatar = {avatar -> updateUserViewModel.onChangedAvatar(avatar)},
     isLoading = false,
     onClickRegister = {updateUserViewModel.onClickRegister(context)},
     onClickSkip = updateUserViewModel::onClickSkip,

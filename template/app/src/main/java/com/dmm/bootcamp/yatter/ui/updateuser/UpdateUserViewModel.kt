@@ -2,7 +2,6 @@ package com.dmm.bootcamp.yatter.ui.updateuser
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import android.webkit.MimeTypeMap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -106,9 +105,6 @@ class UpdateUserViewModel(
       }
       file
     }
-  }
-  fun onChangedAvatar(avatar: File) {
-    Log.d("VM", "画像アップロードした")
   }
   fun onClickRegister(context: Context) {
     viewModelScope.launch {

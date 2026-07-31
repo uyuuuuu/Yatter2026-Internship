@@ -19,7 +19,6 @@ import com.dmm.bootcamp.yatter.ui.component.YatterBackButton
 import com.dmm.bootcamp.yatter.ui.component.YatterTopAppBar
 import com.dmm.bootcamp.yatter.ui.theme.YatterTheme
 import com.dmm.bootcamp.yatter.ui.updateuser.component.ProfileFormContents
-import java.io.File
 
 @Composable
 fun UpdateUserTemplate(
@@ -29,7 +28,6 @@ fun UpdateUserTemplate(
   onChangedNote: (String) -> Unit,
   avatar: Any?,
   onClickSelectImage: () -> Unit,
-  onChangedAvatar: (File) -> Unit,
   isLoading: Boolean,
   onClickUpdate: () -> Unit,
   onClickNavIcon: () -> Unit,
@@ -61,7 +59,6 @@ fun UpdateUserTemplate(
           onChangedNote = onChangedNote,
           avatar = avatar,
           onClickSelectImage = onClickSelectImage,
-          onChangedAvatar = onChangedAvatar
         )
         Button(
           onClick = onClickUpdate,
@@ -90,7 +87,6 @@ private fun UpdateUserTemplatePreview() {
         note = null,
         onChangedNote = {},
         avatar = null,
-        onChangedAvatar = {},
         isLoading = false,
         onClickUpdate = {},
         onClickSelectImage = {},

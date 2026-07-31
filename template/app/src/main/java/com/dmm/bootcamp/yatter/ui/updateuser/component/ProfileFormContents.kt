@@ -38,7 +38,6 @@ fun ProfileFormContents(
   onChangedNote: (String) -> Unit,
   avatar: Any?,
   onClickSelectImage: () -> Unit,
-  onChangedAvatar: (File) -> Unit,
 ) {
   Text(
     modifier = Modifier
@@ -132,7 +131,6 @@ fun ProfileFormPreview() {
           onChangedNote = {},
           avatar = null,
           onClickSelectImage = {},
-          onChangedAvatar = {}
         )
       }
     }

@@ -50,7 +50,6 @@ fun UpdateUserPage(
     onChangedNote = {note -> updateUserViewModel.onChangedNote(note)},
     avatar = uiState.bindingModel.avatar,
     onClickSelectImage = {imagePickerLauncher.launch("image/*")},
-    onChangedAvatar = {avatar -> updateUserViewModel.onChangedAvatar(avatar)},
     isLoading = false,
     onClickUpdate = {updateUserViewModel.onClickUpdate(context)},
     onClickNavIcon = updateUserViewModel::onClickNavIcon,
