@@ -1,5 +1,7 @@
 package com.dmm.bootcamp.yatter.ui.post
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -17,6 +19,13 @@ fun PostPage(
 ) {
   val uiState by postViewModel.uiState.collectAsStateWithLifecycle()
   val context = LocalContext.current
+
+  val imagePickerLauncher = rememberLauncherForActivityResult(
+    contract = ActivityResultContracts.GetContent(),
+  ) { uri ->
+    uri ?: return@rememberLauncherForActivityResult
+    postViewModel.onSelectImage(uri)
+  }
 
   LifecycleEventEffect(event = Lifecycle.Event.ON_CREATE) {
     postViewModel.onCreate()
@@ -37,6 +46,11 @@ fun PostPage(
     isLoading = uiState.isLoading,
     canPost = uiState.canPost,
     onYweetTextChanged = postViewModel::onChangedYweetText,
+    onClickSelectImage = {
+      if (uiState.bindingModel.attachmentImageUris.size < PostViewModel.MAX_ATTACHMENT_COUNT) {
+        imagePickerLauncher.launch("image/*")
+      }
+    },
     onClickPost = { postViewModel.onClickPost(context) },
     onClickNavIcon = postViewModel::onClickNavIcon,
   )

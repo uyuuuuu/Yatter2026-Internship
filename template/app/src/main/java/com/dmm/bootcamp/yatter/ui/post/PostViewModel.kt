@@ -1,11 +1,13 @@
 package com.dmm.bootcamp.yatter.ui.post
 
 import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dmm.bootcamp.yatter.domain.service.GetLoginUserService
 import com.dmm.bootcamp.yatter.usecase.post.PostYweetUseCase
 import com.dmm.bootcamp.yatter.usecase.post.PostYweetUseCaseResult
+import com.dmm.bootcamp.yatter.util.ImageConverter.uriToFile
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -53,13 +55,30 @@ class PostViewModel(
     )}
   }
 
+  fun onSelectImage(uri: Uri) {
+    val currentUris = uiState.value.bindingModel.attachmentImageUris
+    if (currentUris.size >= MAX_ATTACHMENT_COUNT) {
+      return
+    }
+    _uiState.update {
+      it.copy(
+        bindingModel = it.bindingModel.copy(
+          attachmentImageUris = currentUris + uri,
+        ),
+      )
+    }
+  }
+
   // 投稿ボタン 画像があるのでContext
   fun onClickPost(context: Context) {
     viewModelScope.launch {
       _uiState.update { it.copy( isLoading = true ) }
+      val attachmentList = uiState.value.bindingModel.attachmentImageUris.mapNotNull { uri ->
+        uriToFile(context, uri)
+      }
       val result = postYweetUseCase.execute(
         content = uiState.value.bindingModel.yweetText,
-        attachmentList = listOf()
+        attachmentList = attachmentList
       )
       when(result) {
         is PostYweetUseCaseResult.Success -> {
@@ -78,5 +97,9 @@ class PostViewModel(
     viewModelScope.launch {
       _navigationEvent.send(PostNavigationEvent.Back)
     }
+  }
+
+  companion object {
+    const val MAX_ATTACHMENT_COUNT = 4
   }
 }

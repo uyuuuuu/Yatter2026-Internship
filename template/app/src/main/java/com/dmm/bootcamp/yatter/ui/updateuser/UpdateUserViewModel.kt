@@ -2,7 +2,6 @@ package com.dmm.bootcamp.yatter.ui.updateuser
 
 import android.content.Context
 import android.net.Uri
-import android.webkit.MimeTypeMap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dmm.bootcamp.yatter.domain.model.Username
@@ -10,6 +9,7 @@ import com.dmm.bootcamp.yatter.domain.repository.UserRepository
 import com.dmm.bootcamp.yatter.ui.updateuser.bindingmodel.UpdateUserBindingModel
 import com.dmm.bootcamp.yatter.usecase.update.UpdateUserUseCase
 import com.dmm.bootcamp.yatter.usecase.update.UpdateUserUseCaseResult
+import com.dmm.bootcamp.yatter.util.ImageConverter.uriToFile
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.io.File
 
 sealed interface UpdateUserNavigationEvent {
   data object NavigatedToTimeLine : UpdateUserNavigationEvent
@@ -92,18 +91,6 @@ class UpdateUserViewModel(
           avatar = uri,
         ),
       )
-    }
-  }
-  private fun uriToFile(context: Context, uri: Uri): File? {
-    return context.contentResolver.openInputStream(uri)?.use { inputStream ->
-      val extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(
-        context.contentResolver.getType(uri),
-      ) ?: "jpg"
-      val file = File.createTempFile("image", ".$extension")
-      file.outputStream().use { outputStream ->
-        inputStream.copyTo(outputStream)
-      }
-      file
     }
   }
   fun onClickRegister(context: Context) {
