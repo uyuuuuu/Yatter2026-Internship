@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -20,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.dmm.bootcamp.yatter.ui.component.YatterBackButton
 import com.dmm.bootcamp.yatter.ui.component.YatterTopAppBar
 import com.dmm.bootcamp.yatter.ui.theme.YatterTheme
+import com.dmm.bootcamp.yatter.ui.updateuser.component.ProfileFormContents
 import java.io.File
 
 @Composable
@@ -54,57 +53,14 @@ fun UpdateUserTemplate(
         modifier = Modifier
           .fillMaxSize()
       ) {
-        Text(
-          modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 16.dp, bottom = 8.dp),
-          fontSize = MaterialTheme.typography.bodyLarge.fontSize,
-          text = "表示名"
+        ProfileFormContents(
+          displayName = displayName,
+          onChangedDisplayName = onChangedDisplayName,
+          note = note,
+          onChangedNote = onChangedNote,
+          avatar = avatar,
+          onChangedAvatar = onChangedAvatar
         )
-        OutlinedTextField(
-          singleLine = true,
-          modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 16.dp),
-          shape = MaterialTheme.shapes.extraLarge,
-          value = displayName.orEmpty(),
-          onValueChange = onChangedDisplayName,
-          placeholder = {
-            Text(
-              text = "username",
-              color = MaterialTheme.colorScheme.outline
-            )
-          }
-        )
-        Text(
-          modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 16.dp, bottom = 8.dp),
-          fontSize = MaterialTheme.typography.bodyLarge.fontSize,
-          text = "自己紹介"
-        )
-        OutlinedTextField(
-          minLines = 5,
-          modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 16.dp),
-          shape = MaterialTheme.shapes.extraLarge,
-          value = note.orEmpty(),
-          onValueChange = onChangedNote,
-          placeholder = {
-            Text(
-              text = "description",
-              color = MaterialTheme.colorScheme.outline
-            )
-          }
-        )
-//        Text(
-//          modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(top = 16.dp, bottom = 8.dp),
-//          fontSize = MaterialTheme.typography.bodyLarge.fontSize,
-//          text = "アイコン画像"
-//        )
         Button(
           onClick = onClickUpdate,
           modifier = Modifier
