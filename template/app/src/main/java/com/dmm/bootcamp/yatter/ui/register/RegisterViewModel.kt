@@ -35,6 +35,7 @@ class RegisterViewModel (
     _uiState.update {
       it.copy(
         validUsername = Username(username).validate(),
+        errorMessage = null,
         bindingModel = it.bindingModel.copy( username = username )
       )
     }
@@ -44,6 +45,7 @@ class RegisterViewModel (
     _uiState.update {
       it.copy(
         validPassword = RegisterPassword(password).validate(),
+        errorMessage = null,
         bindingModel = it.bindingModel.copy( password = password )
       )
     }
@@ -55,17 +57,26 @@ class RegisterViewModel (
       _uiState.update { it.copy(isLoading = true) }
       // ログイン処理
       val snapBindingModel = uiState.value.bindingModel
+      val result = registerUserUseCase.execute(
+        snapBindingModel.username,
+        snapBindingModel.password
+      )
       when (
-        registerUserUseCase.execute(
-          snapBindingModel.username,
-          snapBindingModel.password
-        )
+        result
       ) {
         is RegisterUserUseCaseResult.Success -> {
           _navigationEvent.send(RegisterNavigationEvent.Registered(snapBindingModel.username))
         }
         is RegisterUserUseCaseResult.Failure -> {
-          // TODO:エラー表示
+          val message =
+            when (result) {
+            is RegisterUserUseCaseResult.Failure.EmptyUsername -> "ユーザー名を入力してください"
+            is RegisterUserUseCaseResult.Failure.EmptyPassword -> "パスワードを入力してください"
+            is RegisterUserUseCaseResult.Failure.InvalidPassword -> "パスワードは8文字以上で、大文字・小文字・記号をそれぞれ1文字以上含めてください"
+            is RegisterUserUseCaseResult.Failure.CreateUserError -> "登録に失敗しました。ユーザー名が既に使われている可能性があります"
+            is RegisterUserUseCaseResult.Failure.LoginError -> "登録はできましたが、ログインに失敗しました"
+          }
+          _uiState.update { it.copy(errorMessage = message) }
         }
       }
       // ローディング解除

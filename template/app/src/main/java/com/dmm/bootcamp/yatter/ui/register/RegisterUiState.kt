@@ -7,6 +7,7 @@ data class RegisterUiState(
   val isLoading: Boolean,
   val validUsername: Boolean,
   val validPassword: Boolean,
+  val errorMessage: String?,
 ) {
   val isEnableRegister: Boolean = validUsername && validPassword
 
@@ -20,6 +21,7 @@ data class RegisterUiState(
         isLoading = false,
         validUsername = false,
         validPassword = false,
+        errorMessage = null,
       )
   }
 }

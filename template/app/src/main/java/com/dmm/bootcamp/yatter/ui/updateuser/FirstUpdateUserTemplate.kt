@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import com.dmm.bootcamp.yatter.ui.component.YatterTopAppBar
 import com.dmm.bootcamp.yatter.ui.theme.YatterTheme
 import com.dmm.bootcamp.yatter.ui.updateuser.component.ProfileFormContents
-import java.io.File
 
 @Composable
 fun FirstUpdateUserTemplate(
@@ -27,7 +26,7 @@ fun FirstUpdateUserTemplate(
   onChangedDisplayName: (String) -> Unit,
   note: String?,
   onChangedNote: (String) -> Unit,
-  avatar: File?,
+  avatar: Any?,
   onClickSelectImage: () -> Unit,
   isLoading: Boolean,
   onClickRegister: () -> Unit,

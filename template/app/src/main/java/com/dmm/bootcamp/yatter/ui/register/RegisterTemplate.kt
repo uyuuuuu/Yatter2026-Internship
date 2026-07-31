@@ -35,6 +35,7 @@ fun RegisterTemplate (
   onChangedPassword: (String) -> Unit,
   isEnableRegister: Boolean,
   isLoading: Boolean,
+  errorMessage: String?,
   onClickRegister: () -> Unit,
   onClickLogin: () -> Unit,) {
 
@@ -82,15 +83,22 @@ fun RegisterTemplate (
         Text(
           modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 16.dp, bottom = 8.dp),
+            .padding(top = 16.dp),
           fontSize = MaterialTheme.typography.bodyLarge.fontSize,
           text = "パスワード"
+        )
+        Text(
+          modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 8.dp),
+          color = MaterialTheme.colorScheme.outline,
+          fontSize = MaterialTheme.typography.bodySmall.fontSize,
+          text = "（8文字以上かつ大文字・小文字・記号をそれぞれ1文字以上）"
         )
         OutlinedTextField(
           singleLine = true,
           modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 16.dp),
+            .fillMaxWidth(),
           shape = MaterialTheme.shapes.extraLarge,
           value = password,
           onValueChange = onChangedPassword,
@@ -101,10 +109,16 @@ fun RegisterTemplate (
             )
           }
         )
+        Text(
+          modifier = Modifier.padding(2.dp),
+          text = errorMessage.orEmpty(),
+          color = MaterialTheme.colorScheme.error
+        )
         Button(
           enabled = isEnableRegister,
           onClick = onClickRegister,
           modifier = Modifier
+            .padding(top = 16.dp)
             .fillMaxWidth()
         ) {
           Text("登録")
@@ -147,6 +161,7 @@ private fun RegisterTemplatePreview() {
         onChangedPassword = {},
         isEnableRegister = true,
         isLoading = false,
+        errorMessage = "パスワードの形式が正しくありません",
         onClickRegister = {},
         onClickLogin = {},
       )

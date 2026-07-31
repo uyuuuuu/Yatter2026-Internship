@@ -7,6 +7,7 @@ data class LoginUiState (
   val isLoading: Boolean,
   val validUsername: Boolean,
   val validPassword: Boolean,
+  val errorMessage: String?,
 ) {
   // ログインボタン押せるか
   val isEnableLogin: Boolean = validUsername && validPassword
@@ -19,6 +20,7 @@ data class LoginUiState (
       isLoading = false,
       validUsername = false,
       validPassword = false,
+      errorMessage = null,
     )
   }
 }

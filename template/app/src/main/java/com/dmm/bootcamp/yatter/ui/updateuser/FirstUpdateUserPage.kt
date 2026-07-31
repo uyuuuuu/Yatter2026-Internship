@@ -11,7 +11,6 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dmm.bootcamp.yatter.domain.model.Username
 import org.koin.androidx.compose.koinViewModel
-import java.io.File
 
 @Composable
 fun FirstUpdateUserPage(
@@ -46,10 +45,10 @@ fun FirstUpdateUserPage(
 
   FirstUpdateUserTemplate(
     displayName = uiState.bindingModel.displayName,
-    onChangedDisplayName = {displayname -> updateUserViewModel.onChangedDisplayName(displayname)},
+    onChangedDisplayName = {displayName -> updateUserViewModel.onChangedDisplayName(displayName)},
     note = uiState.bindingModel.note,
     onChangedNote = {note -> updateUserViewModel.onChangedNote(note)},
-    avatar = uiState.bindingModel.avatar as? File,
+    avatar = uiState.bindingModel.avatar,
     onClickSelectImage = {imagePickerLauncher.launch("image/*")},
     isLoading = false,
     onClickRegister = {updateUserViewModel.onClickRegister(context)},

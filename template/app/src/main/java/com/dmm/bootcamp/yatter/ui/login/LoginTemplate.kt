@@ -35,6 +35,7 @@ fun LoginTemplate(
   onChangedPassword: (String) -> Unit,
   isEnableLogin: Boolean,
   isLoading: Boolean,
+  errorMessage: String?,
   onClickLogin: () -> Unit,
   onClickRegister: () -> Unit,
 ) {
@@ -85,8 +86,7 @@ fun LoginTemplate(
         OutlinedTextField(
           singleLine = true,
           modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 16.dp),
+            .fillMaxWidth(),
           shape = MaterialTheme.shapes.extraLarge,
           value = password,
           onValueChange = onChangedPassword,
@@ -97,10 +97,16 @@ fun LoginTemplate(
             )
           }
         )
+        Text(
+          modifier = Modifier.padding(2.dp),
+          text = errorMessage.orEmpty(),
+          color = MaterialTheme.colorScheme.error
+        )
         Button(
           enabled = isEnableLogin,
           onClick = onClickLogin,
           modifier = Modifier
+            .padding(top=16.dp)
             .fillMaxWidth(),
         ) {
           Text(text = "ログイン")
@@ -151,6 +157,7 @@ private fun LoginTemplatePreview() {
         onChangedPassword = {},
         isEnableLogin = true,
         isLoading = false,
+        errorMessage = "ユーザー名かパスワードが間違っています",
         onClickLogin = {},
         onClickRegister = {},
       )

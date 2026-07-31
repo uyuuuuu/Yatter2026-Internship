@@ -38,6 +38,7 @@ class LoginViewModel (
     _uiState.update {
       it.copy(
         validUsername = Username(username).validate(),
+        errorMessage = null,
         loginBindingModel = snapshotBindingModel.copy( username = username )
       )
     }
@@ -48,6 +49,7 @@ class LoginViewModel (
     _uiState.update {
       it.copy(
         validPassword = LoginPassword(password).validate(),
+        errorMessage = null,
         loginBindingModel = snapshotBindingModel.copy( password = password )
       )
     }
@@ -69,7 +71,7 @@ class LoginViewModel (
           _navigationEvent.send(LoginNavigationEvent.LoggedIn)
         }
         is LoginUseCaseResult.Failure -> {
-          // TODO:エラー表示
+          _uiState.update { it.copy(errorMessage = "ユーザー名かパスワードが間違っています") }
         }
       }
       // ローディング解除

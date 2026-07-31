@@ -30,6 +30,7 @@ fun RegisterPage(
     onChangedPassword = registerViewModel::onChangedPassword,
     isEnableRegister = uiState.isEnableRegister,
     isLoading = uiState.isLoading,
+    errorMessage = uiState.errorMessage,
     onClickRegister = registerViewModel::onClickRegister,
     onClickLogin = registerViewModel::onClickLogin,
   )

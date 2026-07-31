@@ -32,6 +32,7 @@ fun LoginPage(
     onChangedPassword = loginViewModel::onChangedPassword,
     isEnableLogin = uiState.isEnableLogin,
     isLoading = uiState.isLoading,
+    errorMessage = uiState.errorMessage,
     onClickLogin = loginViewModel::onClickLogin,
     onClickRegister = loginViewModel::onClickRegister,
   )
