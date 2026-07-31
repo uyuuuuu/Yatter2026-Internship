@@ -40,7 +40,7 @@ class ProfileViewModel(
     val snapshotBindingModel = uiState.value.bindingModel
     val yweetList = yweetRepository.findAllPublic() // 一覧取得
     val myYweetList = yweetList.filter {
-      it.user.username.toString() == username
+      it.user.username.value == username
     }
     _uiState.update {
       it.copy(
@@ -63,7 +63,7 @@ class ProfileViewModel(
             username = username,
             displayName = user.displayName,
             note = user.note,
-            avatar = user.avatar,
+            avatar = user.avatar?.toString(),
             ),
           myUserName = myUserName?.value.orEmpty(),
         )}

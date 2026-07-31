@@ -6,6 +6,6 @@ data class ProfileBindingModel(
   val username: String,
   val displayName: String?,
   val note: String?,
-  val avatar: Any?,
+  val avatar: String?,
   val yweetList: List<YweetBindingModel>,
 )
